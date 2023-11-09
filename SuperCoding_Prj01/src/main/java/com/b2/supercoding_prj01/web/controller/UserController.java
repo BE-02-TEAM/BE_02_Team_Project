@@ -30,7 +30,6 @@ public class UserController {
         return userService.signUp(userDto);
     }
 
-
     @PostMapping(value = "/login")
     public String login(@RequestBody UserRequestDto loginRequest, HttpServletResponse httpServletResponse){
         String token = userService.login(loginRequest);
@@ -38,7 +37,6 @@ public class UserController {
         httpServletResponse.setHeader("X-AUTH-TOKEN", token);
         String key = "JWT Token : " + loginRequest.getEmail();
         String value = redisTemplate.opsForValue().get(key);
-
         return "로그인이 성공하였습니다.";
     }
 
@@ -57,5 +55,4 @@ public class UserController {
     public String test1(String string){
         return "테스트 성공!";
     }
-
 }

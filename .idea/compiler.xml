@@ -11,4 +11,9 @@
       </profile>
     </annotationProcessing>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="SuperCoding_Prj01.main" options="--add-exports jogl.all/jogamp.graph.font.typecast.ot.table=ALL-UNNAMED" />
+    </option>
+  </component>
 </project>

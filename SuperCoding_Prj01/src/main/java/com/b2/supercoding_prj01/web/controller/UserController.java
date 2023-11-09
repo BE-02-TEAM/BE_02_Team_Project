@@ -53,4 +53,9 @@ public class UserController {
         return "로그아웃 완료";
     }
 
+    @GetMapping("/posts")
+    public String test1(String string){
+        return "테스트 성공!";
+    }
+
 }

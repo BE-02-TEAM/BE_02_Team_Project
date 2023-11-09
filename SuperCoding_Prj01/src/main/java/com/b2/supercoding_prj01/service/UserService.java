@@ -1,7 +1,5 @@
 package com.b2.supercoding_prj01.service;
 
-
-
 import com.b2.supercoding_prj01.dto.UserRequestDto;
 import com.b2.supercoding_prj01.entity.UserEntity;
 import com.b2.supercoding_prj01.exception.NotFoundException;
@@ -81,7 +79,6 @@ public class UserService {
             throw new BadCredentialsException("잘못된 자격증명입니다");
         }
     }
-
 
     @Transactional
     public void logout(@RequestBody UserRequestDto userRequestDto) {

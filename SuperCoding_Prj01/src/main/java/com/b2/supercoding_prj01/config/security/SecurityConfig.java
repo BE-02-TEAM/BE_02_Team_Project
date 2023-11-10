@@ -2,6 +2,7 @@ package com.b2.supercoding_prj01.config.security;
 
 import com.b2.supercoding_prj01.jwt.JwtTokenProvider;
 import com.b2.supercoding_prj01.web.controller.filters.JwtAuthenticationFilter;
+import com.b2.supercoding_prj01.web.controller.filters.TokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,7 +44,7 @@ public class SecurityConfig {
 //                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
   //             .accessDeniedHandler(new CustomerAccessDeniedHandler())
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

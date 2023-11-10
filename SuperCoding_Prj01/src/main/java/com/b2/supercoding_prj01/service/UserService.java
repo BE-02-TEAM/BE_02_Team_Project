@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,7 +34,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
-    private final RedisTemplate<String,String> redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
 
     @Transactional
     public String signUp(UserRequestDto userDto) {
@@ -55,6 +56,7 @@ public class UserService {
 
         return "회원가입이 완료 되었습니다.";
     }
+
     @Transactional
     public String login(UserRequestDto loginRequest) {
 
@@ -69,16 +71,18 @@ public class UserService {
             userRepository.findByEmail(email)
                     .orElseThrow(() -> new NotFoundException("회원이 없습니다"));
 
-            if(redisTemplate.opsForValue().get("logout: " + loginRequest.getEmail()) != null){
+            if (redisTemplate.opsForValue().get("logout: " + loginRequest.getEmail()) != null) {
                 redisTemplate.delete("logout: " + loginRequest.getEmail());
             }
-
             return jwtTokenProvider.createToken(email);
         } catch (Exception e) {
             e.printStackTrace();
             throw new BadCredentialsException("잘못된 자격증명입니다");
         }
     }
+
+
+
 
     @Transactional
     public void logout(@RequestBody UserRequestDto userRequestDto) {
@@ -89,17 +93,32 @@ public class UserService {
             redisTemplate.delete(userRequestDto.getEmail()); //Token 삭제
         }
     }
-    //로그아웃 테스트용 api --> 토큰 유효성 검사
-    public boolean test(@RequestBody UserRequestDto userRequestDto){
 
-        if(redisTemplate.opsForValue().get("logout: " + userRequestDto.getEmail()) != null){
-            return false;
-        }
-        else{
-            System.out.println("정상적인 key ");
+    //로그아웃 테스트용 api --> 토큰 유효성 검사
+    public boolean test(@RequestBody UserRequestDto userRequestDto) {
+
+        try {
+            if (redisTemplate.opsForValue().get("logout: " + userRequestDto.getEmail()) != null) {
+                return false;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("로그아웃 된 키!");
         }
         return true;
+
     }
 
+    public boolean test2(String email) {
+
+        try {
+            if (redisTemplate.opsForValue().get("logout: " + email) != null) {
+                return false;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("로그아웃 된 키!");
+        }
+        return true;
+
+    }
 
 }

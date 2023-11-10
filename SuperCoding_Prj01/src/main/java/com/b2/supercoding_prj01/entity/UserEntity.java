@@ -3,6 +3,7 @@ package com.b2.supercoding_prj01.entity;
 
 
 import com.b2.supercoding_prj01.role.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,10 +30,10 @@ public class UserEntity implements UserDetails {
 
     private String email;
 
-
+    @JsonIgnore
     private String password;
 
-
+    
     private Role role;
 
 //    public void passwordEncode(PasswordEncoder passwordEncoder) {

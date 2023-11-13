@@ -27,13 +27,13 @@ public class UserEntity implements UserDetails {
     @Column(name = "user_idx")
     private Long userId;
 
-
+    @JsonIgnore
     private String email;
 
     @JsonIgnore
     private String password;
 
-    
+    @JsonIgnore
     private Role role;
 
 //    public void passwordEncode(PasswordEncoder passwordEncoder) {
